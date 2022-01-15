@@ -4,7 +4,8 @@
   "description": "Backend API for Bookstore",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "keywords": [
     "api",
@@ -22,6 +23,7 @@
     "express-fileupload": "^1.2.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.1.6",
+    "morgan": "^1.10.0",
     "nodemailer": "^6.7.2",
     "stripe": "^8.197.0",
     "validator": "^13.7.0"
