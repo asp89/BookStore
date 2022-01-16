@@ -5,27 +5,27 @@ const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const expressFileUpload = require("express-fileupload");
 
-// swagger documentation
+// SECTION: swagger documentation
 const swaggerUi = require("swagger-ui-express");
 const YAML = require("yamljs");
 const swaggerDocument = YAML.load("./swagger.yaml");
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-// regular middleware
+// SECTION: regular middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// cookies and file middleware
+// SECTION: cookies and file middleware
 app.use(cookieParser());
 app.use(expressFileUpload());
 
-// morgan middleware
+// SECTION: morgan middleware
 app.use(morgan("tiny"));
 
-// import all routes here
+// SECTION: import all routes here
 const home = require("./routes/homeRoute");
 
-// router middleware
+// SECTION: router middleware
 app.use("/api/v1", home);
 
 module.exports = app;
