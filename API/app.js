@@ -17,7 +17,15 @@ app.use(express.urlencoded({ extended: true }));
 
 // SECTION: cookies and file middleware
 app.use(cookieParser());
-app.use(expressFileUpload());
+app.use(
+  expressFileUpload({
+    useTempFiles: true,
+    tempFileDir: "/tmp/",
+  })
+);
+
+//temp check
+app.set("view engine", "ejs");
 
 // SECTION: morgan middleware
 app.use(morgan("tiny"));
@@ -29,5 +37,9 @@ const user = require("./routes/userRoute");
 // SECTION: router middleware
 app.use("/api/v1", home);
 app.use("/api/v1", user);
+
+app.get("/signuptest", (req, res) => {
+  res.render("signuptest");
+});
 
 module.exports = app;
