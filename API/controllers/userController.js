@@ -2,7 +2,6 @@ const User = require("../models/user");
 const BigPromise = require("../middlewares/bigPromise");
 const CustomError = require("../utils/customError");
 const cookieToken = require("../utils/cookieToken");
-const fileUploader = require("express-fileupload");
 const cloudinary = require("cloudinary");
 
 exports.signup = BigPromise(async (req, res, next) => {
@@ -30,5 +29,22 @@ exports.signup = BigPromise(async (req, res, next) => {
       secure_url: result.secure_url,
     },
   });
+  await cookieToken(user, res);
+});
+
+exports.login = BigPromise(async (req, res, next) => {
+  const { email, password } = req.body;
+
+  if (!email || !password)
+    return next(new CustomError("Please provide email and password", 400));
+
+  const user = await User.findOne({ email }).select("+password");
+
+  if (!user) return next(new CustomError("User does not exist", 400));
+
+  const bPasswordValidated = await user.isValidatedPassword(password);
+  if (!bPasswordValidated)
+    return next(new CustomError("Incorrect credentials", 400));
+
   await cookieToken(user, res);
 });
