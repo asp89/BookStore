@@ -4,6 +4,7 @@ const CustomError = require("../utils/customError");
 const cookieToken = require("../utils/cookieToken");
 const cloudinary = require("cloudinary");
 const mailHelper = require("../utils/mailHelper");
+const crypto = require("crypto");
 
 exports.signup = BigPromise(async (req, res, next) => {
   if (!req.files)
@@ -75,7 +76,7 @@ exports.forgotPassword = BigPromise(async (req, res, next) => {
 
   const myURL = `${req.protocol}://${req.get(
     "host"
-  )}/password/reset/${forgotPasswordToken}`;
+  )}/api/v1/password/reset/${forgotPasswordToken}`;
 
   const message = `Copy paste this link in your URL and hit enter \n\n ${myURL}`;
 
@@ -97,4 +98,32 @@ exports.forgotPassword = BigPromise(async (req, res, next) => {
     });
     return next(new CustomError(error.message, 500));
   }
+});
+
+exports.resetPassword = BigPromise(async (req, res, next) => {
+  //get token from params
+  const token = req.params.token;
+
+  // hash the token as db also stores the hashed version
+  const encryToken = crypto.createHash("sha256").update(token).digest("hex");
+
+  // find user based on hased on token and time in future
+  const user = await User.findOne({
+    encryToken,
+    forgotPasswordExpiryDate: { $gt: Date.now() },
+  });
+
+  console.log(token, "---", encryToken);
+  console.log(user);
+  if (!user) return next(new CustomError("Token is invalid or expired", 400));
+
+  if (req.body.password !== req.body.confirmPassword)
+    return next(new CustomError("Passwords do not match", 400));
+
+  user.password = req.body.password;
+  user.forgotPasswordToken = undefined;
+  user.forgotPasswordExpiryDate = undefined;
+
+  await user.save();
+  await cookieToken(user, res);
 });

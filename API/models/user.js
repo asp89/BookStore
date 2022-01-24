@@ -83,8 +83,7 @@ userSchema.methods.getForgotPasswordToken = function () {
     .digest("hex");
 
   // NOTE: Token Time expiry
-  this.forgotPasswordExpiryDate =
-    Date.now() + process.env.FORGOT_PASSWORD_EXPIRY;
+  this.forgotPasswordExpiryDate = Date.now() + 30 * 60 * 1000;
 
   return generatedForgotPasswordToken;
 };
