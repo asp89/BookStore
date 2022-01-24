@@ -3,6 +3,7 @@ const BigPromise = require("../middlewares/bigPromise");
 const CustomError = require("../utils/customError");
 const cookieToken = require("../utils/cookieToken");
 const cloudinary = require("cloudinary");
+const mailHelper = require("../utils/mailHelper");
 
 exports.signup = BigPromise(async (req, res, next) => {
   if (!req.files)
@@ -59,4 +60,41 @@ exports.logout = BigPromise(async (req, res, next) => {
     success: true,
     message: "Logout successfully",
   });
+});
+
+exports.forgotPassword = BigPromise(async (req, res, next) => {
+  const { email } = req.body;
+
+  const user = await User.findOne({ email });
+
+  if (!user) return next(new CustomError("User does not exist!", 400));
+
+  const forgotPasswordToken = user.getForgotPasswordToken();
+
+  await user.save({ validateBeforeSave: false });
+
+  const myURL = `${req.protocol}://${req.get(
+    "host"
+  )}/password/reset/${forgotPasswordToken}`;
+
+  const message = `Copy paste this link in your URL and hit enter \n\n ${myURL}`;
+
+  try {
+    await mailHelper({
+      recipientEmail: user.email,
+      subject: "Bookstore - Password Reset",
+      message,
+    });
+    res.status(200).json({
+      success: true,
+      message: "Email sent successfully",
+    });
+  } catch (error) {
+    user.forgotPasswordToken = undefined;
+    user.forgotPasswordExpiryDate = undefined;
+    await user.save({
+      validateBeforeSave: false,
+    });
+    return next(new CustomError(error.message, 500));
+  }
 });

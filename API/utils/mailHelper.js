@@ -12,7 +12,7 @@ const mailHelper = async (option) => {
 
   const message = {
     from: process.env.PRODUCT_SUPPORT,
-    to: option.receiverEmail,
+    to: option.recipientEmail,
     subject: option.subject,
     text: option.message
   };
