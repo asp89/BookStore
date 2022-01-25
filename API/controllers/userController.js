@@ -133,3 +133,18 @@ exports.getLoggedInUserDetails = BigPromise(async (req, res, next) => {
     user,
   });
 });
+
+exports.changePassword = BigPromise(async (req, res, next) => {
+  const userId = req.user.id;
+  const user = await User.findById(userId).select("+password");
+
+  const isOldPasswordCorrect = await user.isValidatedPassword(
+    req.body.oldPassword
+  );
+  if (!isOldPasswordCorrect)
+    return next(new CustomError("Old Password is incorrect", 400));
+
+  user.password = req.body.newPassword;
+  await user.save();
+  await cookieToken(user, res);
+});
