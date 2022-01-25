@@ -9,6 +9,7 @@ const {
   resetPassword,
   getLoggedInUserDetails,
   changePassword,
+  updateUserDetails,
 } = require("../controllers/userController");
 const { isLoggedIn } = require("../middlewares/user");
 
@@ -19,5 +20,6 @@ router.route("/forgotpassword").post(forgotPassword);
 router.route("/password/reset/:token").post(resetPassword);
 router.route("/userdashboard").get(isLoggedIn, getLoggedInUserDetails);
 router.route("/password/update").post(isLoggedIn, changePassword);
+router.route("/userdashboard/update").post(isLoggedIn, updateUserDetails);
 
 module.exports = router;
