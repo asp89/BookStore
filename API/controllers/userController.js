@@ -113,8 +113,6 @@ exports.resetPassword = BigPromise(async (req, res, next) => {
     forgotPasswordExpiryDate: { $gt: Date.now() },
   });
 
-  console.log(token, "---", encryToken);
-  console.log(user);
   if (!user) return next(new CustomError("Token is invalid or expired", 400));
 
   if (req.body.password !== req.body.confirmPassword)
