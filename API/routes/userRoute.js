@@ -7,11 +7,15 @@ const {
   logout,
   forgotPassword,
   resetPassword,
+  getLoggedInUserDetails,
 } = require("../controllers/userController");
+const { isLoggedIn } = require("../middlewares/user");
 
 router.route("/signup").post(signup);
 router.route("/login").post(login);
 router.route("/logout").get(logout);
 router.route("/forgotpassword").post(forgotPassword);
 router.route("/password/reset/:token").post(resetPassword);
+router.route("/userdashboard").get(isLoggedIn,getLoggedInUserDetails);
+
 module.exports = router;
