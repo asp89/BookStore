@@ -231,10 +231,11 @@ exports.updateUserDetailsByAdmin = BigPromise(async (req, res, next) => {
     email,
     role,
   };
+  console.log(req.params.id, newData)
 
-  const user = await User.findByIdAndRemove(req.params.id, newData, {
+  const user = await User.findByIdAndUpdate(req.params.id, newData, {
     new: true,
-    runValidators: false,
+    runValidators: true,
     useFindAndModify: false,
   });
 
@@ -244,7 +245,7 @@ exports.updateUserDetailsByAdmin = BigPromise(async (req, res, next) => {
 });
 
 exports.deleteUserByAdmin = BigPromise(async (req, res, next) => {
-  const user = await User.findById(req.user.id);
+  const user = await User.findById(req.params.id);
   if (!user) next(new CustomError("User does not exist", 400));
 
   const imageId = user.photo.id;

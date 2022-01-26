@@ -40,7 +40,7 @@ router
   .get(isLoggedIn, customRole(roles.ADMIN), fetchAllUsersByAdmin);
 router
   .route(`/${roles.ADMIN}/users/:id`)
-  .get(isLoggedIn, customRole(roles.ADMIN), getUserByAdmin)
+  .get(isLoggedIn, customRole(roles.ADMIN), getUserByAdmin) // Done
   .put(isLoggedIn, customRole(roles.ADMIN), updateUserDetailsByAdmin)
   .delete(isLoggedIn, customRole(roles.ADMIN), deleteUserByAdmin);
 
