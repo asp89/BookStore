@@ -12,6 +12,9 @@ const {
   updateUserDetails,
   fetchAllUsersByAdmin,
   fetchAllUsersByManager,
+  getUserByAdmin,
+  updateUserDetailsByAdmin,
+  deleteUserByAdmin,
 } = require("../controllers/userController");
 const { isLoggedIn, customRole } = require("../middlewares/user");
 const roles = require("../utils/roles");
@@ -35,6 +38,12 @@ router
 router
   .route(`/${roles.ADMIN}/users`)
   .get(isLoggedIn, customRole(roles.ADMIN), fetchAllUsersByAdmin);
+router
+  .route(`/${roles.ADMIN}/users/:id`)
+  .get(isLoggedIn, customRole(roles.ADMIN), getUserByAdmin)
+  .put(isLoggedIn, customRole(roles.ADMIN), updateUserDetailsByAdmin)
+  .delete(isLoggedIn, customRole(roles.ADMIN), deleteUserByAdmin);
+
 // !SECTION
 
 module.exports = router;

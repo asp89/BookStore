@@ -191,6 +191,15 @@ exports.updateUserDetails = BigPromise(async (req, res, next) => {
   });
 });
 
+exports.fetchAllUsersByManager = BigPromise(async (req, res, next) => {
+  const users = await User.find({ role: roles.USER });
+
+  res.status(200).json({
+    success: true,
+    users,
+  });
+});
+
 exports.fetchAllUsersByAdmin = BigPromise(async (req, res, next) => {
   const users = await User.find();
 
@@ -200,11 +209,49 @@ exports.fetchAllUsersByAdmin = BigPromise(async (req, res, next) => {
   });
 });
 
-exports.fetchAllUsersByManager = BigPromise(async (req, res, next) => {
-  const users = await User.find({ role: roles.USER});
+exports.getUserByAdmin = BigPromise(async (req, res, next) => {
+  const user = await User.findById(req.params.id);
+  if (!user) {
+    next(new CustomError("No user found", 400));
+  }
+  // send user
+  res.status(200).json({
+    success: true,
+    user,
+  });
+});
+
+exports.updateUserDetailsByAdmin = BigPromise(async (req, res, next) => {
+  const { name, email, role } = req.body;
+  if (!name || !email || !role)
+    return next(new CustomError("Name, Email, Role are required", 400));
+
+  const newData = {
+    name,
+    email,
+    role,
+  };
+
+  const user = await User.findByIdAndRemove(req.params.id, newData, {
+    new: true,
+    runValidators: false,
+    useFindAndModify: false,
+  });
 
   res.status(200).json({
     success: true,
-    users,
+  });
+});
+
+exports.deleteUserByAdmin = BigPromise(async (req, res, next) => {
+  const user = await User.findById(req.user.id);
+  if (!user) next(new CustomError("User does not exist", 400));
+
+  const imageId = user.photo.id;
+
+  await cloudinary.v2.uploader.destroy(imageId);
+  await user.remove();
+  res.status(200).json({
+    success: true,
   });
 });
