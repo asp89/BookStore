@@ -5,6 +5,7 @@ const cookieToken = require("../utils/cookieToken");
 const cloudinary = require("cloudinary");
 const mailHelper = require("../utils/mailHelper");
 const crypto = require("crypto");
+const roles = require("../utils/roles");
 
 exports.signup = BigPromise(async (req, res, next) => {
   if (!req.files)
@@ -187,5 +188,23 @@ exports.updateUserDetails = BigPromise(async (req, res, next) => {
   res.status(200).json({
     success: true,
     user,
+  });
+});
+
+exports.fetchAllUsersByAdmin = BigPromise(async (req, res, next) => {
+  const users = await User.find();
+
+  res.status(200).json({
+    success: true,
+    users,
+  });
+});
+
+exports.fetchAllUsersByManager = BigPromise(async (req, res, next) => {
+  const users = await User.find({ role: roles.USER});
+
+  res.status(200).json({
+    success: true,
+    users,
   });
 });
