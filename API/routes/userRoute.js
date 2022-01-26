@@ -25,12 +25,16 @@ router.route("/userdashboard").get(isLoggedIn, getLoggedInUserDetails);
 router.route("/password/update").post(isLoggedIn, changePassword);
 router.route("/userdashboard/update").post(isLoggedIn, updateUserDetails);
 
-router
-  .route(`/${roles.ADMIN}/users`)
-  .get(isLoggedIn, customRole(roles.ADMIN), fetchAllUsersByAdmin);
-
+// SECTION: Manager Role route.
 router
   .route(`/${roles.MANAGER}/users`)
   .get(isLoggedIn, customRole(roles.MANAGER), fetchAllUsersByManager);
+// !SECTION
+
+// SECTION: Administrator Role route.
+router
+  .route(`/${roles.ADMIN}/users`)
+  .get(isLoggedIn, customRole(roles.ADMIN), fetchAllUsersByAdmin);
+// !SECTION
 
 module.exports = router;
