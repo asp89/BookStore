@@ -7,6 +7,8 @@ const {
   updateProductById,
   deleteProductById,
   deleteReviewByProductId,
+  getReviewsByProductId,
+  addReview,
 } = require("../controllers/productController");
 const { isLoggedIn, customRole } = require("../middlewares/user");
 const roles = require("../utils/roles");
