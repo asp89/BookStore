@@ -36,6 +36,10 @@ const productSchema = new mongoose.Schema({
       values: ["science"],
     },
   },
+  stock: {
+    type: Number,
+    required: [true, "Please add a number in stock"],
+  },
   photos: [
     {
       id: {
