@@ -1,0 +1,25 @@
+{
+  "shippingInfo": {
+    "address": "1 New Delhi",
+    "city": "Delhi",
+    "phoneNumber": "9898989898",
+    "postalCode": "110011",
+    "state": "Delhi",
+    "country": "India"
+  },
+  "orderItems": [
+    {
+      "name": "Journey into Mathematics",
+      "quantity": 10,
+      "price": 60,
+      "isbn": "978-81-7480-378-8",
+      "product": "62249c9bc28865fc20f732a4"
+    }
+  ],
+  "paymentInfo": {
+    "id": "000-Test-Payment-Info"
+  },
+  "taxAmount": 108,
+  "shippingAmount": 100,
+  "totalAmount": 808
+}
