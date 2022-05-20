@@ -1,7 +1,7 @@
 # File created using '.gitignore Generator' for Visual Studio Code: https://bit.ly/vscode-gig
 
-# Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,macos,node
-# Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,macos,node
+# Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,node,macos,meteorjs,nextjs,react,vuejs
+# Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,node,macos,meteorjs,nextjs,react,vuejs
 
 ### macOS ###
 # General
@@ -30,6 +30,27 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+### macOS Patch ###
+# iCloud generated files
+*.icloud
+
+### MeteorJS ###
+# default meteor build and local packages
+.meteor/local
+
+# meteor settings file
+settings.json
+
+# meteor build output files
+*.tar.gz
+
+# general swp files from vim
+*.swp
+
+### NextJS ###
+# Next build dir
+.next/
 
 ### Node ###
 # Logs
@@ -171,6 +192,19 @@ dist
 # SvelteKit build / generate output
 .svelte-kit
 
+### react ###
+.DS_*
+**/*.backup.*
+**/*.back.*
+
+node_modules
+
+*.sublime*
+
+psd
+thumb
+sketch
+
 ### VisualStudioCode ###
 .vscode/*
 !.vscode/settings.json
@@ -191,8 +225,20 @@ dist
 .ionide
 
 # Support for Project snippet scope
+.vscode/*.code-snippets
 
-# End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,macos,node
+# Ignore code-workspaces
+*.code-workspace
+
+### Vuejs ###
+# Recommended template: Node.gitignore
+
+dist/
+npm-debug.log
+yarn-error.log
+
+# End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,node,macos,meteorjs,nextjs,react,vuejs
 
 # Custom rules (everything added below won't be overriden by 'Generate .gitignore File' if you use 'Update' option)
 
+test_bookstore.zip
