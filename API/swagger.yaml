@@ -8,6 +8,13 @@ info:
     url: "https://github.com/asp89"
 
 servers:
+  - url: "{protocol}://l5x0qfeifb.execute-api.us-east-2.amazonaws.com/test/api/v1"
+    description: API Gateway URL
+    variables:
+      protocol:
+        enum:
+          - https
+        default: https
   - url: "{protocol}://localhost:4000/api/{version}"
     description: Local Host
     variables:
