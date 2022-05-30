@@ -5,7 +5,12 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "compile": "rm -rf awsDeploy/* && cp index.js awsDeploy",
+    "zip": "mkdir awsDeploy && cd awsDeploy && zip -r test_bookstore.zip .",
+    "s3Upload": "aws s3 cp awsDeploy/test_bookstore.zip s3://my-learners-bucket/test_bookstore.zip",
+    "publish-lambda": "aws lambda update-function-code --function-name test_bookstore --s3-bucket my-learners-bucket --s3-key test_bookstore.zip",
+    "deploy-lambda": "npm run zip && npm run s3upload && npm run publish-lambda"
   },
   "keywords": [
     "api",
